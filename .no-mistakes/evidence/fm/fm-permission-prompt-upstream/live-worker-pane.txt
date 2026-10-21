@@ -1,0 +1,21 @@
+=== real Claude pane is on a permission prompt (saved worker-pane-on-prompt.txt)
+=== Scenario: typed steer into the prompt pane
+send rc=1
+send stderr: error: blocked on a prompt: Claude permission prompt: echo fm-live-worker-marker && echo second-line
+pane unchanged, prompt still open: PASS
+no steer text typed: PASS
+=== Scenario: real fm-watch.sh poll loop raises the permission-prompt wake
+run 1 (+3s) wake: signal: /var/folders/51/1351mbqd7jn0fjnv9l24y04c0000gn/T//fm-lab.eeYlbm/state/worker.status
+run 2 (+11s) wake: stale: fmlab:worker (blocked-on-prompt: Claude permission prompt: echo fm-live-worker-marker && echo second-line)
+run 3 (+13s) wake: check: permission prompt pending: task=worker window=fmlab:worker waiting=8s - Claude permission prompt: echo fm-live-worker-marker && echo second-line
+permission-prompt wake raised: PASS
+record: 1792597646	Claude permission prompt: echo fm-live-worker-marker && echo second-line
+prompt still unanswered after watcher: PASS
+=== Scenario: same prompt does not wake twice
+repeat run wake: 
+no second prompt wake: PASS
+=== Scenario: prompt cancelled, next poll clears the record
+record before clearing poll: .permission-prompt-fmlab_worker
+.permission-prompt-fmlab_worker.alerted
+second watcher stdout: 
+record cleared: PASS
