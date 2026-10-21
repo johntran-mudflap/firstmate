@@ -1975,7 +1975,9 @@ fm_composer_blocking_dialog() {  # <screen> -> dialog name
 # Bash call; tests/fm-permission-prompt-live-e2e.test.sh is the live guard.
 fm_composer_permission_prompt() {  # <screen> -> subject
   local screen=${1-} subject
-  [ -n "$screen" ] || return 1
+  # The watcher reads every pane on every poll; skip the forks below when the
+  # question is not on screen at all.
+  case "$screen" in *'Do you want to '*) ;; *) return 1 ;; esac
   subject=$(printf '%s\n' "$screen" | fm_composer_strip_ansi | LC_ALL=C awk '
     function trim(s) { sub(/^[ \t]+/, "", s); sub(/[ \t\r]+$/, "", s); return s }
     { row[NR] = $0 }
