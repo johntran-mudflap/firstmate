@@ -1,0 +1,44 @@
+╭─── Claude Code v2.1.153 ─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╮
+│                                           │ Tips for getting started                                                                                         │
+│             Welcome back John!            │ Run /init to create a CLAUDE.md file with instructions for Claude                                                │
+│                                           │ ──────────────────────────────────────────────────────────────────────────────────────────────────────────────── │
+│                  ▐▛███▜▌                  │ What's new                                                                                                       │
+│                 ▝▜█████▛▘                 │ Added `/claude-api api-version` to move Claude API code to API version `2026-10-21`                              │
+│                   ▘▘ ▝▝                   │ Added the `claude_code.safety_event` OpenTelemetry event for each tool call a permission rule, auto mode, a saf… │
+│                                           │ Fixed requests failing with a model-not-found error when `CLAUDE_CODE_DISABLE_1M_CONTEXT` is set and the model … │
+│   Haiku 4.5 · Claude Team · Mudflap Inc   │ /release-notes for more                                                                                          │
+│     /…/T/fm-lab.WNA672/projects/work      │                                                                                                                  │
+╰──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+
+  ⎿  SessionStart:startup hook error                                              ⎿  Failed with non-blocking status code: /bin/sh: lavish-axi: command not
+                                                                                     found
+  ⎿  SessionStart:startup hook error                                              ⎿  Failed with non-blocking status code: /bin/sh: gh-axi: command not found
+  ⎿  SessionStart:startup hook error                                              ⎿  Failed with non-blocking status code: /bin/sh: chrome-devtools-axi: command
+                                                                                      not found
+
+❯ Use the Bash tool to run exactly this one command and nothing else: echo fm-live-ask-marker && echo second-line
+
+⏺ Bash(echo fm-live-ask-marker && echo second-line)
+  ⎿  Waiting…
+
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+ Bash command
+
+   echo fm-live-ask-marker && echo second-line
+   Run the requested echo commands
+
+ Hook PreToolUse:Bash requires confirmation for this command:
+ lab asks [settings]
+ settings.json to update hooks
+
+ Do you want to proceed?
+ ❯ 1. Yes
+   2. No
+
+ Esc to cancel · Tab to amend · ctrl+e to explain
+
+
+
+
+
+

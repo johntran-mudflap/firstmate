@@ -1,0 +1,6 @@
+--- watcher run 1 rc=0 at 16:49:34
+signal: /private/var/folders/51/1351mbqd7jn0fjnv9l24y04c0000gn/T/fm-lab.WNA672/state/prompted.status
+--- watcher run 2 rc=0 at 16:49:40
+stale: fmlab:fm-prompted (blocked-on-prompt: Claude permission prompt: echo fm-live-ask-marker && echo second-line)
+--- watcher run 3 rc=0 at 16:49:44
+check: permission prompt pending: task=prompted window=fmlab:fm-prompted waiting=6s - Claude permission prompt: echo fm-live-ask-marker && echo second-line

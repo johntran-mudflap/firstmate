@@ -1,0 +1,7 @@
+ok - a main-session prompt still on screen alerts once through the wedge-alarm channels, and the hook decides nothing
+ok - a prompt whose session transcript moved on does not alert
+ok - an approved command still running, with an unchanged transcript, does not alert when the pane shows no prompt
+ok - with no readable main pane the transcript decides alone, and the alert says so
+ok - a newer prompt replaces the older one's record, so only the newer prompt's check alerts
+ok - a session without the lock, a Cursor payload, a linked worktree, and a second mate's home record and alert nothing
+fm-main-prompt-alarm rc=0

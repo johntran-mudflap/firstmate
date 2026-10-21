@@ -1,0 +1,4 @@
+ok - a busy worker on a permission prompt wakes once past the threshold, naming the task and the command
+ok - the permission prompt clock restarts for a different prompt and clears when the prompt leaves the pane
+ok - a paused secondmate's pane is not checked for a pending permission prompt
+rc=0
