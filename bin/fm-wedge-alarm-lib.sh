@@ -17,17 +17,17 @@ WEDGE_ALARM_NOTIFIER_PID=
 : "${WEDGE_ALARM_TITLE:=firstmate: away-mode escalations WEDGED}"
 
 # --- backend-independent active wedge alert ---------------------------------
-# The tmux status-line flash in inject_wedge_alarm below is a cosmetic,
-# client-side OSD with no cross-backend equivalent, so a wedged non-tmux primary
-# (the 2026-07-10 overnight incident: a claude-on-herdr primary) got NO active
-# signal - only the passive state/.subsuper-inject-wedged marker, which nothing
-# surfaces until the next fleet action (that night, 20 escalations sat buffered
-# for 8.5h). These helpers add a configurable active alert that does not depend
-# on any pane or its backend status-line: an OS-level macOS notification, a
-# herdr notification, or a captain-supplied command (push to a phone, etc.).
-# Every channel is best-effort - a missing or failing channel logs and is
-# skipped, never crashing the daemon loop - and the durable marker plus the tmux
-# flash stay exactly as before.
+# The tmux status-line flash in inject_wedge_alarm (bin/fm-supervise-daemon.sh)
+# is a cosmetic, client-side OSD with no cross-backend equivalent, so a wedged
+# non-tmux primary (the 2026-07-10 overnight incident: a claude-on-herdr
+# primary) got NO active signal - only the passive state/.subsuper-inject-wedged
+# marker, which nothing surfaces until the next fleet action (that night, 20
+# escalations sat buffered for 8.5h). These helpers add a configurable active
+# alert that does not depend on any pane or its backend status-line: an OS-level
+# macOS notification, a herdr notification, or a captain-supplied command (push
+# to a phone, etc.). Every channel is best-effort - a missing or failing channel
+# logs and is skipped, never crashing the daemon loop - and the durable marker
+# plus the tmux flash stay exactly as before.
 #
 # Config: config/wedge-alarm (local, gitignored), one channel directive per
 # non-empty, non-comment line. FM_WEDGE_ALARM_CHANNEL overrides the file with a
@@ -220,7 +220,8 @@ wedge_alarm_emit() {  # <channel> <summary>
 }
 
 # Fire every configured active-alert channel, best-effort. Always returns 0: a
-# channel failure can never abort inject_wedge_alarm or the daemon loop. Any
+# channel failure can never abort a caller: inject_wedge_alarm and the daemon
+# loop in bin/fm-supervise-daemon.sh, or bin/fm-main-prompt-alarm.sh. Any
 # `off` directive disables the alert, regardless of position; an unresolvable
 # `auto` (no OS channel on this platform) logs that the durable marker is the
 # only signal. Every notifier routes through the test-forced recorder seam.

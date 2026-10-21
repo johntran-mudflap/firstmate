@@ -7639,5 +7639,32 @@ test_permission_prompt_clock_follows_the_prompt() {
   pass "the permission prompt clock restarts for a different prompt and clears when the prompt leaves the pane"
 }
 
+test_paused_secondmate_permission_prompt_is_not_checked() {
+  local dir state fakebin out capture_file statusf window key pid
+  dir=$(make_case secondmate-permission-prompt); state="$dir/state"; fakebin="$dir/fakebin"
+  out="$dir/watch.out"; capture_file="$dir/pane.txt"; statusf="$state/mate.status"
+  window="test:fm-prompted-mate"
+  write_permission_prompt "$capture_file" 'echo mate-prompt'
+  printf 'window=%s\nkind=secondmate\n' "$window" > "$state/mate.meta"
+  printf 'paused: awaiting the upstream release\n' > "$statusf"
+  printf '%s' "$(seen_sig "$statusf")" > "$state/.seen-mate_status"
+  key=$(printf '%s' "$window" | tr ':/.' '___')
+  printf '%s\t%s\n' "$(( $(date +%s) - 500 ))" 'Claude permission prompt: echo mate-prompt' > "$state/.permission-prompt-$key"
+  export FM_FAKE_CREW_STATE='state: paused · source: status-log · awaiting the upstream release'
+  PATH="$fakebin:$PATH" FM_FAKE_TMUX_WINDOW="$window" FM_FAKE_TMUX_CAPTURE="$capture_file" \
+    FM_STATE_OVERRIDE="$state" FM_CREW_STATE_BIN="$fakebin/fm-crew-state.sh" FM_PERMISSION_PROMPT_SECS=90 \
+    FM_PAUSE_RESURFACE_SECS=99999 FM_STALE_ESCALATE_SECS=999 FM_POLL=1 FM_SIGNAL_GRACE=1 \
+    FM_CHECK_INTERVAL=999999 FM_HEARTBEAT=999999 "$WATCH" > "$out" &
+  pid=$!
+  wait_poll_cycle "$state" "$pid" || true
+  reap "$pid"
+  unset FM_FAKE_CREW_STATE
+  grep -F 'permission prompt pending' "$out" >/dev/null \
+    && fail "a paused secondmate on a permission prompt raised a prompt wake: $(cat "$out")"
+  [ ! -e "$state/.permission-prompt-$key" ] || fail "a paused secondmate kept a permission prompt record"
+  pass "a paused secondmate's pane is not checked for a pending permission prompt"
+}
+
 test_permission_prompt_on_busy_pane_wakes_once_naming_the_command
 test_permission_prompt_clock_follows_the_prompt
+test_paused_secondmate_permission_prompt_is_not_checked

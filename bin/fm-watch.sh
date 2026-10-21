@@ -3370,7 +3370,11 @@ EOF
     # poll already takes, and a miss drops a name the away daemon saved.
     dialog=$(fm_composer_blocking_dialog "$tail40") || dialog=
     [ -n "$dialog" ] || clear_dialog_suffix "$task"
-    permission_prompt_check "$w" "$task" "$key" "$dialog"
+    if [ "$kind" = secondmate ]; then
+      permission_prompt_check "$w" "$task" "$key"
+    else
+      permission_prompt_check "$w" "$task" "$key" "$dialog"
+    fi
     h=$(printf '%s' "$tail40" | hash_pane)
     hf="$STATE/.hash-$key"
     cf="$STATE/.count-$key"
