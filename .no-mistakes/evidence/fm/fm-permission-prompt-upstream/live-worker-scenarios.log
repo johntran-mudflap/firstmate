@@ -1,0 +1,27 @@
+=== pane on prompt saved
+=== SCENARIO A: steer typed into a real prompt
+fm-send rc=1
+fm-gate-refuse: gate agent lifecycle permitted only against lab home /private/var/folders/51/1351mbqd7jn0fjnv9l24y04c0000gn/T/fm-lab.c8a7Yl
+error: blocked on a prompt: Claude permission prompt: echo fm-live-ask-marker && echo second-line
+error: text not sent to fmlab:worker (tmux send failed; tried meta=/private/var/folders/51/1351mbqd7jn0fjnv9l24y04c0000gn/T/fm-lab.c8a7Yl/state/fmlab:worker.meta; metadata window/terminal lookup; backend=tmux; endpoint=verified)
+fm_backend_send_text_submit rc=1
+error: blocked on a prompt: Claude permission prompt: echo fm-live-ask-marker && echo second-line
+A: PASS prompt still open, nothing typed, command not approved
+=== SCENARIO B: watcher wake on a worker parked on the prompt
+round 1 watch rc=0
+--- watch stdout
+signal: /private/var/folders/51/1351mbqd7jn0fjnv9l24y04c0000gn/T/fm-lab.c8a7Yl/state/w1.status
+drained: 1792683865	2	signal	w1.status	signal: /private/var/folders/51/1351mbqd7jn0fjnv9l24y04c0000gn/T/fm-lab.c8a7Yl/state/w1.status wake annotation: latest wake-EVENT observed at drain, not current state: w1.status: working: running the marker command  ack=2 gen=83928.1792683865.VBzHbX
+round 2 watch rc=0
+--- watch stdout
+stale: fmlab:worker (blocked-on-prompt: Claude permission prompt: echo fm-live-ask-marker && echo second-line)
+drained: 1792683873	3	stale	fmlab:worker	stale: fmlab:worker (blocked-on-prompt: Claude permission prompt: echo fm-live-ask-marker && echo second-line)  ack=3 gen=86227.1792683873.eAmx4d
+round 3 watch rc=0
+--- watch stdout
+check: permission prompt pending: task=w1 window=fmlab:worker waiting=7s - Claude permission prompt: echo fm-live-ask-marker && echo second-line
+--- watch stderr (tail)
+--- triage log (prompt lines)
+--- wake queue
+1792683875	4	check	permission-prompt-w1-1792683868	check: permission prompt pending: task=w1 window=fmlab:worker waiting=7s - Claude permission prompt: echo fm-live-ask-marker && echo second-line
+prompt still unanswered after the watcher
+=== cleared prompt with Escape

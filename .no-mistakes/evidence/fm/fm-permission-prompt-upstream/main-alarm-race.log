@@ -1,0 +1,19 @@
+--- prompt A recorded, its check starts with a 2s delay
+--- prompt B's hook replaces the record while A's check sleeps
+A check exit: done
+record after A's check:
+A raised no alert (correct, superseded)
+--- B's check runs
+alerts:
+command|firstmate's main session has waited 1s on a permission prompt for Bash: echo prompt-B; supervision is paused until it is answered (main pane unreadable; an approved command still running looks the same)
+log:
+[2026-10-22T08:45:01-0700] alert: firstmate's main session has waited 1s on a permission prompt for Bash: echo prompt-B; supervision is paused until it is answered (main pane unreadable; an approved command still running looks the same)
+--- adversarial: transcript changed after prompt C -> resolved, no alert
+C raised no alert
+[2026-10-22T08:45:02-0700] resolved: the session moved on after the Bash prompt
+/tmp/fm-live-scen/race.sh: line 48: 93130 Terminated: 15          sleep 600
+after A's own matched check, record exists: yes
+token=tokA
+subject=echo A
+a newer hook write (mv over it) replaces it, nothing in check removes it
+/tmp/fm-live-scen/persist.sh: line 11: 95323 Terminated: 15          sleep 600
