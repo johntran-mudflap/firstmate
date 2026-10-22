@@ -148,7 +148,6 @@ check() {  # <token>
   transcript=$(record_field transcript); mtime=$(record_field mtime)
   backend=$(record_field backend); target=$(record_field target)
   tool=$(record_field tool); subject=$(record_field subject)
-  rm -f "$RECORD"
   case "$lock_pid" in ''|*[!0-9]*) return 0 ;; esac
   [ "$(cat "$STATE/.lock" 2>/dev/null || true)" = "$lock_pid" ] && kill -0 "$lock_pid" 2>/dev/null || return 0
   if [ -n "$transcript" ] && [ "$(file_mtime "$transcript" || true)" != "$mtime" ]; then

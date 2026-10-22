@@ -102,8 +102,7 @@ as_session() {  # <home> <script> [env assignments...]
     settle() {
       local i=0
       while [ "$i" -lt 100 ]; do
-        { [ -s "$HOME_DIR/alerts" ] || grep -q "resolved: " "$FM_HOME/state/.main-permission-prompt.log" 2>/dev/null; } \
-          && [ ! -e "$FM_HOME/state/.main-permission-prompt" ] && return 0
+        { [ -s "$HOME_DIR/alerts" ] || grep -q "resolved: " "$FM_HOME/state/.main-permission-prompt.log" 2>/dev/null; } && return 0
         sleep 0.1; i=$((i + 1))
       done
       return 1
